@@ -1,2 +1,2 @@
 #!/bin/sh
- ./trproxy --keystore-path ~/privnet3/keystore --to "0x185ca9b6da95beba43f3763b8e4cf3a0252cc241" --proxy "0x1a9ec3b0b807464e6d3398a59d6b0a369bf422fa" --from "0x8e65d5349ab0833cd76d336d380144294417249e" --amount 8 --token "0x3772cedc564cf1e9ae23d761ff8a79cf764ea58b"  --eth-rpc-endpoint "http://127.0.0.1:8545"
+ ./trproxy --keystore-path ~/privnet3/keystore --to "0x185ca9b6da95beba43f3763b8e4cf3a0252cc241" --proxy "0x5463c61a827cda9b8939e3513544bc35eb8ff05d" --from "0x8e65d5349ab0833cd76d336d380144294417249e" --amount 3 --token "0x43eE79e379e7b78D871100ed696e803E7893b644"  --eth-rpc-endpoint "http://13.250.14.57:8545"
