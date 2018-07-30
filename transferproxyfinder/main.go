@@ -10,6 +10,8 @@ import (
 	"bytes"
 	"encoding/hex"
 
+	"io"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
@@ -76,11 +78,16 @@ var contractAddress = map[common.Address]bool{
 	common.HexToAddress("0x286292C0BC3fa5af45E7ad9F0864CcD79F8346ef"): true,
 }
 
-var funcId []byte
+var transferProxyID []byte
+var approveProxyID []byte
 
 func init() {
 	var err error
-	funcId, err = hex.DecodeString("eb502d45000000000000000000000000")
+	transferProxyID, err = hex.DecodeString("eb502d45000000000000000000000000")
+	if err != nil {
+		log.Fatal("DecodeString err %s", err)
+	}
+	approveProxyID, err = hex.DecodeString("7f5dfd16000000000000000000000000")
 	if err != nil {
 		log.Fatal("DecodeString err %s", err)
 	}
@@ -103,6 +110,16 @@ func main() {
 	wg.Wait()
 	log.Printf("complete ...")
 }
+func ReadBigInt(reader io.Reader) *big.Int {
+	bi := new(big.Int)
+	tmpbuf := make([]byte, 32)
+	_, err := reader.Read(tmpbuf)
+	if err != nil {
+		log.Printf("read BigInt error %s\n", err)
+	}
+	bi.SetBytes(tmpbuf)
+	return bi
+}
 
 func f(number chan int64, wg *sync.WaitGroup) {
 	ctx := context.Background()
@@ -112,6 +129,7 @@ func f(number chan int64, wg *sync.WaitGroup) {
 	if err != nil {
 		log.Fatalf(fmt.Sprintf("Failed to connect to the Ethereum client: %v", err))
 	}
+	v := big.NewInt(0)
 	for {
 		i, ok := <-number
 		if !ok {
@@ -130,14 +148,25 @@ func f(number chan int64, wg *sync.WaitGroup) {
 		for index, tx := range txs {
 			d := tx.Data()
 			//log.Printf("data=%s", hex.EncodeToString(d))
-			if bytes.Index(d, funcId) != 0 {
-				continue
+			if bytes.Index(d, transferProxyID) == 0 {
+				if contractAddress[*tx.To()] {
+					valueb := d[4+32*2 : 4+32*3]
+					value := ReadBigInt(bytes.NewReader(valueb))
+					log.Printf("transferproxytxhash=%s,blocknumber=%s,index=%d,value=%s,token=%s", tx.Hash().String(), b.Number(), index, value, tx.To().String())
+					v = v.Add(v, value)
+				}
 			}
-			if contractAddress[*tx.To()] {
-				log.Printf("found transfer txhash=%s,blocknumber=%s,index=%d", tx.Hash().String(), b.Number(), index)
+			if bytes.Index(d, approveProxyID) == 0 {
+				if contractAddress[*tx.To()] {
+					valueb := d[4+32*2 : 4+32*3]
+					value := ReadBigInt(bytes.NewReader(valueb))
+					log.Printf("approveproxytxhash=%s,blocknumber=%s,index=%d,value=%s,token=%s", tx.Hash().String(), b.Number(), index, value, tx.To().String())
+					v = v.Add(v, value)
+				}
 			}
 		}
 
 	}
 	wg.Done()
+	log.Printf("thread total=%s\n", v)
 }
