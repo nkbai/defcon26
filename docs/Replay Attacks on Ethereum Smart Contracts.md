@@ -23,7 +23,7 @@ which own some tokens for transferring.
 ###  Step two
   Bob induced Alice to send him 2 UGT tokens. The transaction inputdata is shown as below:
 Function: transferProxy(address _from, address _to, uint256 _value, uint256 _feeUgt, uint8 _v, bytes32 _r, bytes32 _s)
-MethodID: 0xeb502d45
+
 ![step two](./img/p2.png)
 
 ### Step three
