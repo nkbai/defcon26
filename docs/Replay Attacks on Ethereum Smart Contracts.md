@@ -1,5 +1,4 @@
-# Your May Have Paid More than You Imagine  
-######          Replay Attacks on Ethereum Smart Contracts
+#  Replay Attacks on Ethereum Smart Contracts
 An replay attack vulnerability in many smart contract inplementation, allows attackers to accomplish replay attack in two similar contracts , the reason is that many smart contracts adopt the same way to verify the validity of the signature, but the contents of the signature were not correctly limited by the smart contracts. Such as transfer proxy, the contents of the  UGT signature and the contents of the MTC signature are exactly the same. the attack process is as follow:
 ![attack process](./img/p1.png)
 
