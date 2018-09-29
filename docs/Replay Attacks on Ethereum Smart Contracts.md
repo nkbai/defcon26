@@ -42,5 +42,4 @@ Function: transferProxy(address _from, address _to, uint256 _value, uint256 _fee
 * [ M2C Mesh Network (MTC) 0x8feBf7551EeA6Ce499F96537Ae0e2075c5A7301a](https://etherscan.io/address/0x8feBf7551EeA6Ce499F96537Ae0e2075c5A7301a#code)
 * [ First (FST) 0x9E88770DA20ebea0Df87aD874c2F5cf8ab92f605](https://etherscan.io/address/0x9E88770DA20ebea0Df87aD874c2F5cf8ab92f605#code)
 * [GG Token (GG) 0xF20b76Ed9d5467fDcDc1444455e303257d2827c7](https://etherscan.io/address/0xF20b76Ed9d5467fDcDc1444455e303257d2827c7#code)
-* [SmartMesh (SMT) old 0x55F93985431Fc9304077687a35A1BA103dC1e081](https://etherscan.io/address/0x55F93985431Fc9304077687a35A1BA103dC1e081#code)
 * [UG Token (UGT) old 0x43ee79e379e7b78d871100ed696e803e7893b644](https://etherscan.io/address/0x43ee79e379e7b78d871100ed696e803e7893b644#code)
